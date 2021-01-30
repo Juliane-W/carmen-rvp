@@ -35,7 +35,6 @@ from hitcalling import HitCallingFoldThreshold, CheckOutliers, CheckEC, CheckNDC
                 'version': '1.0.6',
                 'copyright': '2021',
                 'website': 'Github Link',
-                'developer': 'CARMEN RVP team',
                 'license': 'MIT'
             }, {
                 'type': 'Link',
@@ -72,11 +71,10 @@ def main():
     
     # Define the user defaults:
     timestamp = time.strftime("%Y%m%d-%H%M%S")
-    defaults = {'verbosity': 'info', 'xname': timestamp, 'outdir': '', 'rawdata': '', 'layout': '',\
-                'Ectrl': 'EC','NTCctrl': 'NTC','CPCctrl':'CPC','NDCctrl': 'NDC', 'DMctrl': 'no-crRNA','Wctrl': 'water',\
-                'threshold': 1.8, 'timepoint': 't12', 'alsort': 'original','slsort': 'original'}
+    defaults = {'xname': timestamp, 'outdir': '', 'rawdata': '', 'layout': ''}
     
     args = ArgParse(defaults)
+    args.verbosity = 'info'
     
     # Check that the output directory exists, and make it if not:
     output_dir = path.expanduser(path.abspath(args.outdir))
@@ -117,6 +115,20 @@ def main():
     for inputfile in [args.layout, args.rawdata]:      
         if not path.exists(inputfile):
             error('specified file {} does not exist'.format(inputfile))      
+    
+    # Setup of arguments that are NOT given by the user, since they are fixed
+    args.toi = 't12'
+    args.threshold = 1.8
+    args.alsort = 'orginial'
+    args.slsort = 'original'
+    args.ntcctrl = 'NTC'
+    args.cpcctrl = 'CPC'
+    args.ectrl = 'EC'
+    args.ndcctrl = 'NDC'
+    args.dmctrl = 'no-crRNA'
+    args.wctrl = 'water'
+    
+##TODO## Check if all controls are present in the layout sheet
     
     # Read in data
     logging.info("Reading in rawdata from {}".format(args.rawdata))
