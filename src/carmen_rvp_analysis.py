@@ -23,7 +23,7 @@ from hitcalling import HitCallingFoldThreshold, CheckOutliers, CheckEC, CheckNDC
       program_description = 'Analyze CARMEN RVP data from Fluidigm Biomark HD instrument.',
       tabbed_groups=True,
       language = 'english',
-      image_dir = './img/',
+      image_dir = '../img/',
       clear_before_run = True,
       menu=[{
         'name': 'About',
