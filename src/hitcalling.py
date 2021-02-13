@@ -102,8 +102,6 @@ def CheckEC(df,assaylist,ctrl):
                 logging.warning('EC is not negative for {}'.format(guide))
                 outliers.append(guide)
     
-    logging.debug('EC outlier {}'.format(outliers))
-    
     return outliers, passed
     
 def CheckNDC(df,assaylist,ctrl):
@@ -117,7 +115,7 @@ def CheckNDC(df,assaylist,ctrl):
             logging.warning('Sample mastermix without Mg is not negative for {} in {}'.format(guide,ctrl)) 
             outliers.append(guide)
             
-    logging.debug('NDC outlier {}'.format(outliers))        
+    logging.warning('NDC not successfull for {}'.format(outliers))        
     return outliers
 
 def CheckDM(df,samplelist,ctrl):
@@ -129,7 +127,7 @@ def CheckDM(df,samplelist,ctrl):
         if df.loc[ctrl,sample] != 'negative':
             logging.warning('Detection Assay MM control is not negative in sample {} for {} assay'.format(sample,ctrl))
             outliers.append(sample)       
-    logging.debug('DM sample outlier {}'.format(outliers))
+    logging.warning('DM not successfull for {}'.format(outliers))
     return outliers
     
 def CheckEx(df,samplelist,assaylist,args):
@@ -145,7 +143,7 @@ def CheckEx(df,samplelist,assaylist,args):
         if count1 == 0:
             outliers.append(sample)
             
-    logging.debug('Extraction sample outlier {}'.format(outliers))
+    logging.debug('Extraction sample not successfull for {}'.format(outliers))
     return outliers
         
 def ConsiderControls(df,assaylist,samplelist,args,NTCout,CPCout,ECout,DSout,DMout,Exout):
@@ -155,7 +153,9 @@ def ConsiderControls(df,assaylist,samplelist,args,NTCout,CPCout,ECout,DSout,DMou
     resulty = 'invalid' # the sample causing the invalid result. For clinical reporting, both are named the same
     
     allguidesoutliers = NTCout + CPCout + ECout + DSout
+    logging.info('Invalid guides: {}'.format(allguidesoutliers))
     allsamplesoutliers = DMout + Exout
+    logging.info('Invalid samples: {}'.format(allsamplesoutliers))
     for guide in assaylist:
         for sample in samplelist:
             # skip if guide/sample combination is fine

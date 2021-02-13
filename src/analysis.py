@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from itertools import groupby
 from functools import reduce
+import logging
 
 def ReadData(x):
     """

@@ -74,7 +74,7 @@ def main():
     defaults = {'xname': timestamp, 'outdir': '', 'rawdata': '', 'layout': ''}
     
     args = ArgParse(defaults)
-    args.verbosity = 'info'
+    args.verbosity = 'INFO'
     
     # Check that the output directory exists, and make it if not:
     output_dir = path.expanduser(path.abspath(args.outdir))
@@ -119,7 +119,7 @@ def main():
     # Setup of arguments that are NOT given by the user, since they are fixed
     args.toi = 't12'
     args.threshold = 1.8
-    args.alsort = 'orginial'
+    args.alsort = 'original'
     args.slsort = 'original'
     args.ntcctrl = 'NTC'
     args.cpcctrl = 'CPC'
@@ -202,6 +202,7 @@ def main():
         hit_df = hit_df.applymap(lambda x: 'invalid')
         hit_df.T.to_csv("{}_hits.csv".format(output_prefix))
         PlotHeatmap(median_df, hit_df, args.toi, a_list, s_list, output_prefix)
+        logging.info("Controls failed. Analysis aborted.")
         logging.info("Heatmap with hits is saved as {}_heatmap_{}.png".format(output_prefix, args.toi))
         sys.exit()
         
