@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import logging
+import itertools
 
 def HitCallingFoldThreshold(frame, fold_threshold, assaylist, samplelist, ctrl):
     # returns dataframe with hit yes or no
@@ -92,10 +93,10 @@ def CheckEC(df,assaylist,ctrl):
     passed = True
     
     for guide in assaylist:
-        if guide == 'RNaseP' or 'RNAseP':
+        if guide == 'RNAseP':
             if df.loc[guide, ctrl] != 'positive':
-                logging.warning('EC is not positive for RNaseP')
-                logging.warning('Run is invalid because of failed extraction control.')
+                logging.warning('guide: {}, value {}'.format(guide,df.loc[guide, ctrl]))
+                logging.warning('EC is not positive for RNAseP and run is invalid because of failed extraction control.')
                 passed = False
         else:
             if df.loc[guide, ctrl] != 'negative':
@@ -125,7 +126,7 @@ def CheckDM(df,samplelist,ctrl):
     outliers = []
     for sample in samplelist:
         if df.loc[ctrl,sample] != 'negative':
-            logging.warning('Detection Assay MM control is not negative in sample {} for {} assay'.format(sample,ctrl))
+            logging.debug('Detection Assay MM control is not negative in sample {} for {} assay'.format(sample,ctrl))
             outliers.append(sample)       
     logging.warning('DM not successfull for {}'.format(outliers))
     return outliers
@@ -135,7 +136,7 @@ def CheckEx(df,samplelist,assaylist,args):
     For all samples, at least one assay has to be positive otherwise this indicates a problem with extraction and the sample will be invalid. Repeat extraction, RT-PCR and crRNA-Cas13 testing for this specimen.
     """
     outliers = []
-    dontcheck = [args.ectrl,args.ntcctrl,args.cpcctrl,args.dsctrl,'water','Water','W-Ext','w-ext','W-ext','W-det','w-det',args.wctrl] # exclude controls from this analysis
+    dontcheck = [args.ectrl,args.ntcctrl,args.cpcctrl,args.ndcctrl,'water','Water','W-Ext','w-ext','W-ext','W-det','w-det',args.wctrl] # exclude controls from this analysis
     for sample in samplelist:
         if sample in dontcheck:
             continue
@@ -152,8 +153,9 @@ def ConsiderControls(df,assaylist,samplelist,args,NTCout,CPCout,ECout,DSout,DMou
     resultx = 'invalid' # invalid
     resulty = 'invalid' # the sample causing the invalid result. For clinical reporting, both are named the same
     
-    allguidesoutliers = NTCout + CPCout + ECout + DSout
-    logging.info('Invalid guides: {}'.format(allguidesoutliers))
+    #allguidesoutliers = NTCout + CPCout + ECout + DSout
+    allguidesoutliers = list(itertools.chain(NTCout, CPCout,ECout,DSout))
+    logging.info('Invalid guides: {}'.format(allguidesoutliers[0]))
     allsamplesoutliers = DMout + Exout
     logging.info('Invalid samples: {}'.format(allsamplesoutliers))
     for guide in assaylist:

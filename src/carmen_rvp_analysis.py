@@ -91,7 +91,7 @@ def main():
     output_prefix = path.join(args.outdir, args.xname)
     
     # Set up logging based on the verbosity level set by the command line arguments:
-    logfilepath = '{}logfile.log'.format(output_prefix)
+    logfilepath = '{}_logfile.log'.format(output_prefix)
     logging.basicConfig(format='%(asctime)s, %(name)s %(levelname)s %(message)s',
                         datefmt='%m-%d %H:%M',
                         level = logging.DEBUG,
@@ -128,7 +128,7 @@ def main():
     args.dmctrl = 'no-crRNA'
     args.wctrl = 'water'
     
-##TODO## Check if all controls are present in the layout sheet
+    ##TODO## Check if all controls are present in the layout sheet
     
     # Read in data
     logging.info("Reading in rawdata from {}".format(args.rawdata))
@@ -197,8 +197,8 @@ def main():
     
     # Extraction control should be negative for all targets and positive for RNAseP
     EC_outlier, pass_ec = CheckEC(hit_df,a_list,args.ectrl)
-    
-    if pass_ec or pass_cpc == False:
+
+    if pass_ec == False or pass_cpc == False:
         hit_df = hit_df.applymap(lambda x: 'invalid')
         hit_df.T.to_csv("{}_hits.csv".format(output_prefix))
         PlotHeatmap(median_df, hit_df, args.toi, a_list, s_list, output_prefix)
