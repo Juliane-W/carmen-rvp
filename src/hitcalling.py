@@ -92,9 +92,9 @@ def CheckEC(df,assaylist,ctrl):
     passed = True
     
     for guide in assaylist:
-        if guide == 'RNAseP':
+        if guide == 'RNaseP' or 'RNAseP':
             if df.loc[guide, ctrl] != 'positive':
-                logging.warning('EC is not positive for RNAseP')
+                logging.warning('EC is not positive for RNaseP')
                 logging.warning('Run is invalid because of failed extraction control.')
                 passed = False
         else:
@@ -201,7 +201,7 @@ def ConsiderControls(df,assaylist,samplelist,args,NTCout,CPCout,ECout,DSout,DMou
                     else:
                         df.loc[guide, sample] = resultx # invalid
                 if sample in Exout:
-                    if guide == 'RNAseP':
+                    if guide == 'RNAseP' or 'RNaseP':
                         df.loc[guide, sample] = resulty # this is causing the invalid result
                     elif guide == args.dmctrl:
                         continue
