@@ -58,9 +58,6 @@ class Unbuffered(object):
         return getattr(self.stream, attr)
 sys.stdout = Unbuffered(sys.stdout)
 
-# Get the version:
-version = {}
-with open(path.join(path.abspath(path.dirname(__file__)), 'version.py')) as f: exec(f.read(), version)
 
 # A function to quit with an error:
 def error(msg, exit_code=1):
