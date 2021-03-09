@@ -60,7 +60,7 @@ If the CARMEN RVP PC generates a negative result for any target, this indicates 
         if assaylist[y] == 'no-crRNA' and direction == 'positive':
             if np.abs(z_score) < threshold:
                 # this is a problem, because it should be negative. The whole assay will be invalid.
-                logging.warning("Run is invalid, because the CPC is positive for no crRNA")
+                logging.warning("Run is invalid, because the CPC is no crRNA is not below threshold.")
                 pass_cpc = False
                 
         elif ctrl_values[y] == 'no-crRNA' and direction == 'negative':
