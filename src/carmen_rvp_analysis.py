@@ -9,7 +9,7 @@ For 192.192 IFCs only.
 import sys
 import logging
 import time
-from os import path, makedirs
+from os import path, makedirs, fdopen
 from gooey import Gooey, GooeyParser
 
 # import submodules
@@ -46,16 +46,16 @@ from hitcalling import HitCallingFoldThreshold, CheckOutliers, CheckEC, CheckNDC
 
 # these lines are for packaging with PyInstaller
 class Unbuffered(object):
-    def __init__(self, stream):
-        self.stream = stream
-    def write(self, data):
-        self.stream.write(data)
-        self.stream.flush()
-    def writelines(self, datas):
-        self.stream.writelines(datas)
-        self.stream.flush()
-    def __getattr__(self, attr):
-        return getattr(self.stream, attr)
+   def __init__(self, stream):
+       self.stream = stream
+   def write(self, data):
+       self.stream.write(data)
+       self.stream.flush()
+   def writelines(self, datas):
+       self.stream.writelines(datas)
+       self.stream.flush()
+   def __getattr__(self, attr):
+       return getattr(self.stream, attr)
 sys.stdout = Unbuffered(sys.stdout)
 
 
@@ -225,7 +225,6 @@ def main():
     
 
 ############### EXECUTE #################
-    
 if __name__ == '__main__':
     main()
 

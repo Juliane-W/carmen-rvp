@@ -186,14 +186,14 @@ def ConsiderControls(df,assaylist,samplelist,args,NTCout,CPCout,ECout,DSout,DMou
                 if guide in ECout:
                     if sample == args.ectrl:
                         df.loc[guide, sample] = resulty # this is causing the invalid result
-                    elif sample in [args.ntcctrl,args.cpcctrl,args.dsctrl,args.dmctrl]:
+                    elif sample in [args.ntcctrl,args.cpcctrl,args.ndcctrl,args.dmctrl]:
                         continue # this sample represents the ground truth and shouldn't be changed
                     else:
                         df.loc[guide, sample] = resultx # invalid
                 if guide in DSout:
-                    if sample == args.dsctrl:
+                    if sample == args.ndcctrl:
                         df.loc[guide, sample] = resulty # this is causing the invalid result
-                    elif sample in [args.ntcctrl,args.cpcctrl,args.ectrl,args.dsctrl,args.dmctrl]:
+                    elif sample in [args.ntcctrl,args.cpcctrl,args.ectrl,args.ndcctrl,args.dmctrl]:
                         continue # this sample represents the ground truth and shouldn't be changed
                     else:
                         df.loc[guide, sample] = resultx # invalid
