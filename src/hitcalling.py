@@ -93,10 +93,10 @@ def CheckEC(df,assaylist,ctrl):
     passed = True
     
     for guide in assaylist:
-        if guide == 'RNAseP':
+        if guide == 'RNAseP' or guide == 'RNaseP':
             if df.loc[guide, ctrl] != 'positive':
                 logging.warning('guide: {}, value {}'.format(guide,df.loc[guide, ctrl]))
-                logging.warning('EC is not positive for RNAseP and run is invalid because of failed extraction control.')
+                logging.warning('EC is not positive for RNaseP and run is invalid because of failed extraction control.')
                 passed = False
         else:
             if df.loc[guide, ctrl] != 'negative':
