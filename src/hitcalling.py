@@ -128,7 +128,7 @@ def CheckDM(df,samplelist,ctrl):
         if df.loc[ctrl,sample] != 'negative':
             logging.debug('Detection Assay MM control is not negative in sample {} for {} assay'.format(sample,ctrl))
             outliers.append(sample)       
-    logging.warning('DM not successfull for {}'.format(outliers))
+    logging.warning('Detection Assay MM control (no crRNA) is not negative for {}'.format(outliers))
     return outliers
     
 def CheckEx(df,samplelist,assaylist,args):
