@@ -31,14 +31,14 @@ from hitcalling import HitCallingFoldThreshold, CheckOutliers, CheckEC, CheckNDC
                 'type': 'AboutDialog',
                 'menuTitle': 'About',
                 'name': 'CARMEN RVP analysis Demo',
-                'description': 'An example description',
-                'version': '1.0.6',
+                'description': 'For analysis of the CARMEN RVP assay.',
+                'version': '1.0.7',
                 'copyright': '2021',
-                'website': 'Github Link',
+                'website': 'https://github.com/Juliane-W/carmen-rvp',
                 'license': 'MIT'
             }, {
                 'type': 'Link',
-                'menuTitle': 'Visit Our Webite',
+                'menuTitle': 'Visit Our Lab Webite',
                 'url': 'https://www.sabetilab.org/'
             }]
           }]
@@ -125,7 +125,7 @@ def main():
     args.dmctrl = 'no-crRNA'
     args.wctrl = 'water'
     
-    ##TODO## Check if all controls are present in the layout sheet
+    #improvement opportnunity: Check here if all controls are present in the layout sheet
     
     # Read in data
     logging.info("Reading in rawdata from {}".format(args.rawdata))
