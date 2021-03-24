@@ -1,5 +1,14 @@
 # CARMEN-RVP analysis tool
-CARMEN-RVP is a CRISPR/Cas13 based assay detecting 9 respiratory viruses. The readout is raw fluorescence data extracted from the Fluidigm RT-PCR software. The exported data can then be further analyzed with this tool.
+CARMEN-RVP is a CRISPR/Cas13 based assay detecting 9 respiratory viruses. The readout is raw fluorescence data extracted from the Fluidigm RT-PCR software. The exported data can then be further analyzed with this tool. \
+
+src folder:\
+The main script for the analysis is called 'carmen_rvp_analysis.py'. The other scripts contain functions that will be imported during the analysis run.
+
+img folder:\
+Icons for graphical user interface.
+
+archive-expertversion folder:\
+For R&D use only. This contains an older version of the tool that provides the user with more flexibility on the input.
 
 ## Requirements
 Python dependencies:
