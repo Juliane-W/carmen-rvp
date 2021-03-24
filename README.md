@@ -1,5 +1,5 @@
 # CARMEN-RVP analysis tool
-CARMEN-RVP is a CRISPR/Cas13 based assay detecting 9 respiratory viruses. The readout is raw fluorescence data extracted from the Fluidigm RT-PCR software. The exported data can then be further analyzed with this tool. 
+CARMEN-RVP is a CRISPR/Cas13 based assay detecting 9 respiratory viruses which is run on a Fluidigm Biomark HD instrument. The necessary protocols for running the instrument are in the biomark folder. The readout is raw fluorescence data extracted from the Fluidigm RT-PCR software. The exported data can then be further analyzed with this tool. 
 
 src folder:\
 The main script for the analysis is called 'carmen_rvp_analysis.py'. The other scripts contain functions that will be imported during the analysis run.
@@ -19,17 +19,22 @@ Python dependencies:
 - numpy==1.18.5
 - xlrd==1.1.0
 
-Other things you should have:
+Inputs:
 - Fluidigm Biomark raw data file (.csv)
-- Sample assignment sheet (.xlsx)
+- Sample assignment sheet (.xlsx): Template can be downloaded here.
 
 ## Installation
 
 Clone this github repository to always have the most up-to-date version. An executable version for Windows and Mac will be coming soon.
 
+# Preparation of the assignment sheet
+The assignment sheet can be downloaded from this repository. \
+Samples controls have to be named EC, NTC, NDC, CPC \
+The control assay without crRNA has to be called 'no-crRNA' and the assay for RNaseP has to be called 'RNaseP' or 'RNAseP'.
+
 ## Workflow
 
-1. If you are using the command line, run the the main script with the following command:\
+1. If the command line is used, run the the main script with the following command:\
 $ pythonw ./src/carmen_rvp_analysis.py
 2. Choose an output prefix and an output directory
 3. Upload the assignment sheet and the raw data file
