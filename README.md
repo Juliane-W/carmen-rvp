@@ -20,7 +20,7 @@ Clone this github repository to always have the most up-to-date version. An exec
 
 ## Workflow
 
-1. If you are using the command line, run the the main script in src with the following command:
+1. If you are using the command line, run the the main script in src with the following command:\
 $ pythonw carmen_rvp_analysis.py
 2. Choose an output prefix and an output directory
 3. Upload the assignment sheet and the raw data file
