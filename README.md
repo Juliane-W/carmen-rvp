@@ -21,7 +21,7 @@ Python dependencies:
 
 Inputs:
 - Fluidigm Biomark raw data file (.csv)
-- Sample assignment sheet (.xlsx): Template can be downloaded here.
+- Sample assignment sheet (.xlsx): Template "assignment-template.xlsx" can be downloaded here.
 
 ## Installation
 
