@@ -1,6 +1,6 @@
 '''
 
-CARMEN RVP analysis v6.
+CARMEN RVP analysis.
 For 192.192 IFCs only.
 
 '''
@@ -30,15 +30,15 @@ from hitcalling import HitCallingFoldThreshold, CheckOutliers, CheckEC, CheckNDC
         'items': [{
                 'type': 'AboutDialog',
                 'menuTitle': 'About',
-                'name': 'CARMEN RVP analysis Demo',
-                'description': 'For analysis of the CARMEN RVP assay.',
-                'version': '1.0.7',
+                'name': 'CARMEN RVP Analysis',
+                'description': 'For the analysis of the CARMEN RVP assay.',
+                'version': '1.0.0',
                 'copyright': '2021',
-                'website': 'https://github.com/Juliane-W/carmen-rvp',
+                'website': 'https://github.com/broadinstitute/carmen-rvp',
                 'license': 'MIT'
             }, {
                 'type': 'Link',
-                'menuTitle': 'Visit Our Lab Webite',
+                'menuTitle': 'Visit the Sabeti Lab Webite',
                 'url': 'https://www.sabetilab.org/'
             }]
           }]
@@ -182,10 +182,13 @@ def main():
         PlotHeatmap(median_df, None, args.toi, a_list, s_list, output_prefix+'_LowDynamicRange')
         logging.warning("A heatmap has been generated nevertheless, but without hit calling.")
         sys.exit()
-        
+    
+    ### Process controls
+
     # Check for RT-PCR control outlier --> turns assay invalid
-    NTC_outlier = CheckOutliers(median_df,args.ntcctrl,'negative')  
-    CPC_outlier, pass_cpc = CheckOutliers(median_df,args.cpcctrl,'positive')
+    pass_ntc, pass_cpc = True, True
+    NTC_outlier, pass_ntc, pass_cpc = CheckOutliers(median_df,args.ntcctrl,'negative', pass_ntc, pass_cpc)  
+    CPC_outlier, pass_ntc, pass_cpc = CheckOutliers(median_df,args.cpcctrl,'positive', pass_ntc, pass_cpc)
     
     # perform hit calling on remaining samples
     hit_df, quanthit_df = HitCallingFoldThreshold(median_df,args.threshold,a_list,s_list,args.ntcctrl)
@@ -194,24 +197,28 @@ def main():
     
     # Extraction control should be negative for all targets and positive for RNAseP
     EC_outlier, pass_ec = CheckEC(hit_df,a_list,args.ectrl)
+        
+    # Negative Detection Control (NDC) for sample mastermix should be negative for all targets in W-det-NoMg
+    NDC_outlier, pass_ndc = CheckNDC(hit_df,a_list,args.ndcctrl)
 
-    if pass_ec == False or pass_cpc == False:
+    if pass_ec == False or pass_cpc == False or pass_ntc == False or pass_ndc == False:
         hit_df = hit_df.applymap(lambda x: 'invalid')
         hit_df.T.to_csv("{}_hits.csv".format(output_prefix))
         PlotHeatmap(median_df, hit_df, args.toi, a_list, s_list, output_prefix)
         logging.info("Controls failed. Analysis aborted.")
         logging.info("Heatmap with hits is saved as {}_heatmap_{}.png".format(output_prefix, args.toi))
         sys.exit()
-        
-    # Negative Detection Control (NDC) for sample mastermix should be negative for all targets in W-det-NoMg
-    NDC_outlier = CheckNDC(hit_df,a_list,args.ndcctrl)
     
+    ### Internal controls
+
     # Detection control for assay mastermix should be negative for all sample in no-crRNA assay
     DM_soutlier = CheckDM(hit_df,s_list,args.dmctrl) # this outlier list is with samples instead of assays
     
     # All samples should be positive for RNAseP or at least another sample
     Ex_soutlier = CheckEx(hit_df,s_list,a_list,args) # check if extraction for the sample was successfull
     
+    ### Finalize hit calling
+
     # annotate samples that didn't pass the control
     hit_df = ConsiderControls(hit_df,a_list,s_list,args,NTC_outlier, CPC_outlier, EC_outlier, NDC_outlier, DM_soutlier, Ex_soutlier)
     
