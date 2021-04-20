@@ -68,7 +68,7 @@ If the CARMEN RVP PC generates a negative result for any target, this indicates 
         elif assaylist[y] == 'no-crRNA' and direction == 'negative':
             # value for no-crRNA in NTC has to be around the mean or lower than other negative samples, else:
             if ctrl_values[y] > mean + threshold * std:
-                logging.warning("Run is invalid, because the NTC is above the threshold for no-crRNA"))
+                logging.warning("Run is invalid, because the NTC is above the threshold for no-crRNA")
                 pass_ntc = False
         # Check that RNaseP is positive for CPC
         elif assaylist[y] == 'RNaseP' and direction == 'positive':
@@ -80,7 +80,7 @@ If the CARMEN RVP PC generates a negative result for any target, this indicates 
         elif assaylist[y] == 'RNaseP' and direction == 'negative':
             # value for RNaseP in NTC has to be around the mean of all the other negative samples, else:
             if np.abs(z_score) > threshold:
-                logging.warning("Run is invalid, because the NTC is positive for RNaseP"))
+                logging.warning("Run is invalid, because the NTC is positive for RNaseP")
                 pass_ntc = False
         else:
             if np.abs(z_score) > threshold:
