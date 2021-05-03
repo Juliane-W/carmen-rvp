@@ -18,12 +18,18 @@ from analysis import ReadData, ItemsToList, LabelInputs
 from plot import PlotHeatmap
 from hitcalling import HitCallingFoldThreshold, CheckOutliers, CheckEC, CheckNDC, CheckDM, CheckEx, ConsiderControls, getCtrlMean
 
+import os
+
+# Check if gooey image folder exists. If not, use default images
+img_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'img'))
+if os.path.exists(img_path) == False:
+    img_path = '::gooey/default'
 
 @Gooey(program_name='CARMEN RVP analysis',
       program_description = 'Analyze CARMEN RVP data from Fluidigm Biomark HD instrument.',
       tabbed_groups=True,
       language = 'english',
-      image_dir = '../img/',
+      image_dir = img_path,
       clear_before_run = True,
       menu=[{
         'name': 'About',
