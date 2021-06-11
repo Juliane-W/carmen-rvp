@@ -55,8 +55,8 @@ def LabelInputs(x, y):
     s_layout =  pd.read_excel(y, sheet_name='layout_samples', dtype=str)
     a_layout =  pd.read_excel(y, sheet_name='layout_assays', dtype=str)
     # create dictionary with assay or sample numbers and their name
-    assays = pd.read_excel(y, sheet_name='assays')
-    samples = pd.read_excel(y, sheet_name='samples')
+    assays = pd.read_excel(y, sheet_name='assays', dtype=str)
+    samples = pd.read_excel(y, sheet_name='samples',dtype=str)
     a_dict = dict(zip(a_layout.values.reshape(-1), assays.values.reshape(-1)))
     s_dict = dict(zip(s_layout.values.reshape(-1), samples.values.reshape(-1)))
     # map
@@ -64,6 +64,9 @@ def LabelInputs(x, y):
     x['sample'] = x['sampleID'].map(s_dict)
 
 def ItemsToList(x, sheet, sort = 'original'):
+    """
+    Reads assignment data from excel sheet and returns it as a list.
+    """
     y = pd.read_excel(x, sheet_name = sheet)
     if sheet == 'assays':
         new_array = np.stack(y[['C1', 'C2', 'C3']].values, axis=-1)
@@ -72,7 +75,7 @@ def ItemsToList(x, sheet, sort = 'original'):
                                 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', \
                                 'C13', 'C14', 'C15', 'C16', 'C17', 'C18', \
                                 'C19', 'C20', 'C21', 'C22', 'C23', 'C24']].values, axis=-1)
-    itemlist =  np.concatenate(new_array).tolist()
+    itemlist =  map(str, np.concatenate(new_array).tolist())
     if sort == 'alphabetical':
         itemlist = np.unique(itemlist)
     if sort == 'original':
